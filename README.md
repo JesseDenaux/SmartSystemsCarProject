@@ -32,7 +32,7 @@ https://arduinogetstarted.com/tutorials/arduino-oled
 
 Hier komt mijn tekst
 
-![](./blokschema_driver.svg)
+![](./Blokschema_driver.svg)
 
 
 ### Software analyse
