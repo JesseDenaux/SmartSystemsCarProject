@@ -10,7 +10,7 @@ De wagen moet voldoen aan volgende vereisten:
 - 2 UART connectoren
 - 3  I2C connectoren
 - De regelaar 7805 in de oude sturing vervangen door een LDL1117 (5V) en een LDL1117(3,3V)
-- Polariteitsbeveiliging voorzien
+- Polariteitsbeveiliging 
 - Motordriver in de oude sturing vervangen door een SMD-type
 - OLED-scherm met I2C-sturing voorzien op het bordje
 - Linetracker
@@ -26,5 +26,15 @@ https://arduinogetstarted.com/tutorials/arduino-oled
 ### Mind map
 
 ![](./Mind_map.svg) 
+
+
+### Hardware analyse 
+
+
+
+![](./blokschema_driver.svg)
+
+
+### Software analyse
 
 
