@@ -30,11 +30,12 @@ https://arduinogetstarted.com/tutorials/arduino-oled
 
 ### Hardware analyse 
 
-
+Hier komt mijn tekst
 
 ![](./blokschema_driver.svg)
 
 
 ### Software analyse
+
 
 
