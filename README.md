@@ -34,7 +34,7 @@ Er worden twee afstand sensoren voorzien. Een IR afstandssensor voor de korte af
 
 Daarnaast is er gekozen om gebruik te maken van de ESP32 dev kit en geen afzonderlijke ESP32. In de dev kit zit al een 3.3V regelaar waardoor deze niet moet voorzien worden op de pcb.
 
-![](./blokschema_driver.svg)
+![](./Blokschema_driver.svg)
 
 
 | Blok | Voltage | Stroom |
