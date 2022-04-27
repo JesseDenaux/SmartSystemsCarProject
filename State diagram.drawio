@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2022-04-27T12:05:20.101Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36" etag="avy8pjeSbA3v4vhlcSmb" version="17.4.6" type="github">
+<mxfile host="app.diagrams.net" modified="2022-04-27T12:06:53.709Z" agent="5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36" etag="ZLsq4tQGSti1fZbKk2OU" version="17.4.6" type="github">
   <diagram id="DA84q4yZx9BSqA_NXZOT" name="Page-1">
-    <mxGraphModel dx="603" dy="627" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="852" dy="885" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -135,6 +135,15 @@
         </mxCell>
         <mxCell id="JXXSigS-4veUosoo-Nfw-36" value="After choosing &lt;br&gt;menu" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
           <mxGeometry x="80" y="220" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JXXSigS-4veUosoo-Nfw-38" value="After choosing&lt;br&gt;&amp;nbsp;parcour&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="165" y="280" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JXXSigS-4veUosoo-Nfw-39" value="After choosing&lt;br&gt;&amp;nbsp;manueel&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="180" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="JXXSigS-4veUosoo-Nfw-40" value="After choosing&lt;br&gt;lijn volgen&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="400" y="320" width="90" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
