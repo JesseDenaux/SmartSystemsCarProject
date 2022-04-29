@@ -87,7 +87,7 @@ Het gehele systeem zal geprogrammeerd worden via de ESP32-Wroom-32. Op dit bordj
 
 |Blok | Data In | Data Uit |
 |------|---------|----------|
-|Motor driver | PWM signaal | N.V.T.|
+|Motor driver | PWM signaal | PWM signaal|
 |ATMega328P | Configuratie instellingen, sensordata| Configuratie instellingen sensoren, sensordata|
 |ESP32-Wroom-32| Configuratie instellingen | 2x PWM signaal, configuratie instellingen  |
 |IR afstandsensor | Analoge data| Analoge data|
