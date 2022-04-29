@@ -67,14 +67,15 @@ Er worden twee afstand sensoren voorzien. Een IR afstand sensor voor de korte af
 
 
 ##### Schema ESP32
+![image](https://user-images.githubusercontent.com/93762886/165937903-5e86907d-d823-4586-b909-b09307b27cb7.png)
 
-![278339264_1036087503663971_4777862106067606422_n](/home/jesse/Documents/SmartSystems/SmartSystemsCarProject-main/278339264_1036087503663971_4777862106067606422_n.png)
 
 
 
 ##### Schema ATMEGA328P
 
-![279121250_344241207579955_1037077971318817708_n](/home/jesse/Documents/SmartSystems/SmartSystemsCarProject-main/279121250_344241207579955_1037077971318817708_n.png)
+![image](https://user-images.githubusercontent.com/93762886/165937969-18916344-c1a0-4e8d-9adf-e1a0f540e9bd.png)
+
 
 
 
@@ -97,8 +98,8 @@ Het gehele systeem zal geprogrammeerd worden via de ESP32-Wroom-32. Op dit bordj
 
 
 ##### State diagram
+![image](https://user-images.githubusercontent.com/93762886/165938018-c75b0866-e3c6-40c3-9eed-106ca31d7956.png)
 
-![278959841_470326314844082_7900497458059679647_n](/home/jesse/Documents/SmartSystems/SmartSystemsCarProject-main/278959841_470326314844082_7900497458059679647_n.png)
 
 
 
@@ -112,4 +113,5 @@ Er zullen drie modi aanwezig zijn waar tussen de gebruiker kan wisselen.
 
 ##### Flow chart 
 
-![279123732_674556426950940_703599593076796718_n](/home/jesse/Documents/SmartSystems/SmartSystemsCarProject-main/279123732_674556426950940_703599593076796718_n.png)
+
+![image](https://user-images.githubusercontent.com/93762886/165938070-fa2bc4d0-67b3-4f60-9bc2-a57e4179a6c9.png)
