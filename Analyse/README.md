@@ -56,19 +56,19 @@ Er worden twee afstand sensoren voorzien. Een IR afstand sensor voor de korte af
 | Lijnsensor                 | De lijnsensor is een 8 Channel Track Line Detection Track IR Photoelectric Sensor. Deze is reeds beschikbaar op school.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                  |
 | OLED SSD1306 128x64        | Er wordt gekozen voor de 128x64 omdat deze iets groter is dan de 128x32 en niet veel verschilt in prijs. Tijdens de analyse was dit een verschil van 30 cent (https://protosupplies.com/?s=ssd1306+128x&post_type=product). Dit iets grotere bordje maakt dat zaken duidelijker kunnen worden afgebeeld. Daarnaast kan het I2C adres worden aangepast terwijl dit bij de kleinere versie niet mogelijk is. Indien men toch voor de 128x32 versie wil gaan is dit geen probleem aangezien deze dezelfde aansluitingen heeft als de 128x64 versie. De 128x64 bordjes zijn op school ook beschikbaar dus moeten niet meer worden aangekocht. | SSD1306 128x32                   |
 
-##### Schema ESP32
+##### Schema + PCB ESP32
 
-![](C:\Users\jesse\Documents\Elektronica-ICT%202021-2022\SmartSystems\SmartSystemsCarProject-main\SmartSystemsCarProject\Hardware\ESP32_schema_3.png)
+![image](https://user-images.githubusercontent.com/93762886/173529024-9aa86aba-d8d0-472a-9fe4-51ed92a7c4ea.png)
 
-![](C:\Users\jesse\Documents\Elektronica-ICT%202021-2022\SmartSystems\SmartSystemsCarProject-main\SmartSystemsCarProject\Hardware\ESP32_schema_2.png)
+![image](https://user-images.githubusercontent.com/93762886/173529079-81edb10c-3287-4111-97e7-d83098b1cb96.png)
 
-![](C:\Users\jesse\Documents\Elektronica-ICT%202021-2022\SmartSystems\SmartSystemsCarProject-main\SmartSystemsCarProject\Hardware\ESP32_PCB.png)
+![image](https://user-images.githubusercontent.com/93762886/173529404-a6cf7284-df44-4fe2-8472-402345371d68.png)
 
-##### Schema ATMEGA328P
+##### Schema + PCB ATMEGA328P
 
-![](C:\Users\jesse\Documents\Elektronica-ICT%202021-2022\SmartSystems\SmartSystemsCarProject-main\SmartSystemsCarProject\Hardware\Linetracker_schema.png)
+![image](https://user-images.githubusercontent.com/93762886/173529456-baba718a-3ba6-4e14-8467-34737167984e.png)
 
-![](C:\Users\jesse\Documents\Elektronica-ICT%202021-2022\SmartSystems\SmartSystemsCarProject-main\SmartSystemsCarProject\Hardware\Linetracker_PCB.png)
+![image](https://user-images.githubusercontent.com/93762886/173529501-b4ddcf6c-dc52-49b3-8b6a-c2f3f0fea488.png)
 
 ### Software analyse
 
@@ -95,11 +95,14 @@ Er zullen drie modi aanwezig zijn waar tussen de gebruiker kan wisselen.
 - De derde modus is de modus waarin de wagen een op voorhand geprogrammeerd parcour volgt. Dit parcour zal de verschillende handelingen, die de wagen kan uitvoeren, gebruiken om zo als toon model in te staan zodat omstaanders kunnen zien wat de wagen kan. 
 
 
-
 ##### Flow chart
 
-![](C:\Users\jesse\Documents\Elektronica-ICT%202021-2022\SmartSystems\SmartSystemsCarProject-main\SmartSystemsCarProject\Analyse\Flowchart%20SmartCar.png)
+![image](https://user-images.githubusercontent.com/93762886/173529627-aefb8764-a1f4-4dc2-8227-e007bd56dc82.png)
 
 ##### Planning
 
-![](C:\Users\jesse\AppData\Roaming\marktext\images\2022-05-27-09-32-47-Gantt%20Chart.png)
+De planning ziet er als volgt uit. We beginnen met de probleemstelling uit te schrijven en een mind map te maken. Zo krijgen we een duidelijk overzicht van wat er moet gebeuren en in welke volgorde we alles gaan aanpakken.
+Na de probleemstelling en mindmap te hebben gemaakt kunnen we beginnen aan de hardware- en software analyse. Dit zal toch een kleine maand in beslag nemen. Vervolgens kunnen we beginnen aan het PCB design. Dit gaat wel een langere tijd in beslag nemen omdat onze eerste versie zeker niet direct de juiste gaat zijn. Er zullen verschillende iteraties over gaan tegen dat we de zo goed mogelijke PCB hebben gemaakt. Telkens dat we een versie hebben afgemaakt gaan we deze bestukken en testen. Zo kunnen we te weten komen of alles werkt en of er nog veranderingen moeten gebeuren. Als laatste gaan we de code schrijven en testen. 
+Door het hele proces gaan we alles documenteren. 
+
+![image](https://user-images.githubusercontent.com/93762886/173529937-1d6c7c1f-10c8-441c-a688-f016c74399cb.png)
