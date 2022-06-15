@@ -9,7 +9,7 @@ In de map 'software' vindt u de code voor de ATMEGA328P en ESP32-Wrover
 
 ## Rapport
 
-Dit rapport bepreekt het verloop van het project en de persoonlijke leerdoelen
+Dit rapport bespreekt het verloop van het project en de persoonlijke leerdoelen.
 
 ### Start Robotwagen project
 
@@ -81,4 +81,16 @@ Ik heb geleerd dat een analyse zeer belangrijk is in een project. Dit is de basi
 
 Het is zeer belangrijk om in je hoofd te houden dat de analyse niet vast staat en dat er door het project heen steeds veranderingen aan allerlei zaken gebeuren. Hier heb ik soms wel mijn hoofd over gebroken omdat ik iemand ben die graag iets afwerk en dan aan het volgende werk. Steeds terug huidige versies nemen en verschillende keren aan te passen was toch iets dat ik door dit project heb geleerd. 
 
+Ik heb me wat verkeken bij het vele werk dat er komt kijken bij het ontwerpen van een PCB. Door dit meer in blokken te maken en op te splitsen zou ik veel minder tijd zijn verloren wanneer ik iets moest aanpassen. Ook benamingen van wires en componenten is iets wat ik ga mee nemen naar volgende projecten. Het neemt steeds veel tijd in beslag om te zoeken welke wire nu wat is. 
 
+Wat zeker ook belangrijk is om componenten die niet standaard in Fusion zitten om die af te meten en dan te kijken hoeveel plaats ze gaan innemen op de PCB. Hiermee kan je veel plaats besparen en de PCB kleiner maken. 
+
+Je bent ook afhankelijk van de levering van materiaal. Doordat er verschillende componenten later dan verwacht werden geleverd hebben we enkele lessen niet aan de PCB kunnen werken en hebben deze dan later dan verwacht beginnen solderen. 
+
+Het schrijven van de software ging een pak gemakkelijker en sneller omdat dat iets is waar ik meer vertrouwd ben. Er waren al verschillende zaken die wij voor andere vakken hadden gebruikt waardoor ik die code grotendeels kon overnemen. Het is natuurlijk wel belangrijk dat je PCB optijd klaar is zodat je dit hier op kan testen en aanpassen indien nodig.
+
+#### Verbeteringen 
+
+Het ESP32 bordje zou compacter kunnen worden gemaakt en de OLED holes zouden moeten worden aangepast. 
+
+De code van de ESP32 kan waarschijnlijk efficiënter en compacter worden geschreven. 
