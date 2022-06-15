@@ -4,49 +4,51 @@
 #include <PubSubClient.h>      // https://github.com/knolleary/pubsubclient (intall with library Manager)
 
 //LIJN == 1
+#define ADRES_SENSOR 8
+#define LINETRACKER 1
+#define USSENSOR 2
+#define IRSENSOR 3
+
+//Afstand van 10cm gekozen om wagen achteruit te laten rijden voor 1 seconde
+#define afstand_threshold 10
+
+#define afstand_obstakel_us
+#define afstand_obstakel_ir
 
 // WIFI Credentials
 // Connect to Hotspot on mobile phone
-const char* WIFI_SSID = "iPhone van Yannick"; // Fill wifi SSID between quotes
-const char* WIFI_PASS = "iot labo"; // Fill wifi pass between quotes
+const char* WIFI_SSID = ""; // Fill wifi SSID between quotes
+const char* WIFI_PASS = ""; // Fill wifi pass between quotes
 
 //MQTT Information
-const char* MQTT_SERVER = "mqtt.luytsm.be"; // DO NOT CHANGE!
-const char* TOPIC = "car/1";
+const char* MQTT_SERVER = "mqtt.denauxj.be";
+const char* TOPIC = "car/";
 
-// WIFI and MQTT class instances - DO NOT CHANGE
+// WIFI and MQTT class instances 
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-// Buffer to store MQTT messages - DO NOT CHANGE
+// Buffer voor MQTT messages 
 char msg[32];
 
-// PWM Settings - DO NOT CHANGE
+// PWM Settings
 const int PWM_FREQUENCY = 500;
 const int PWM_RESOLUTION = 8;
 const int PWM_MAX_DC = 255;
 
-// Motor PWM Pin declarations - DO NOT CHANGE
+// Motor PWM Pin declaratie
 const int PWM_CHANNEL_COUNT = 4;
 const int MOTOR_COUNT = 2;
 
 int MOTOR_PINS[PWM_CHANNEL_COUNT] = {18, 5, 2, 15};
 int MOTOR_CHANNELS[PWM_CHANNEL_COUNT] = {0, 1, 2, 3};
 
-// LED PWM Pin declarations - DO NOT CHANGE
-const int LED_CHANNEL_COUNT = 4;
-const int LED_COUNT = 4;
+//I2C LCD Initialisatie
+int LCD_COLUMNS = 16;
+int LCD_ROWS = 2;
+LiquidCrystal_I2C lcd(0x27, LCD_COLUMNS, LCD_ROWS);
 
-int LED_PINS[LED_COUNT] = {13, 12, 14, 27};
-int LED_CHANNELS[LED_CHANNEL_COUNT] = {4, 5, 6, 7};
-int LED_STATE[] = {0, 0, 0, 0};
-
-// I2C LCD Initialisation
-//int LCD_COLUMNS = 16;
-//int LCD_ROWS = 2;
-//LiquidCrystal_I2C lcd(0x27, LCD_COLUMNS, LCD_ROWS);
-
-// Phototransitor Pin Declaration - DO NOT CHANGE
+// Phototransitor Pin Declaratie
 const int PL_PIN = 25;
 const int TRIG_PIN = 19;
 const int ECHO_PIN = 23;
@@ -90,7 +92,7 @@ byte linetracker;
 #define RECHTS false
 bool vorige_afslag = LINKS;
 
-// Function to setup wifi - DO NOT CHANGE
+// Function to setup wifi
 void setup_wifi() {
   delay(10);
   // We start by connecting to a WiFi network
@@ -114,7 +116,7 @@ void setup_wifi() {
   Serial.println(WiFi.localIP());
 }
 
-// Function to (re)connect to the MQTT server - DO NOT CHANGE
+// Function to (re)connect to the MQTT server
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
@@ -145,12 +147,6 @@ void setup() {
     ledcSetup(MOTOR_CHANNELS[i], PWM_FREQUENCY, PWM_RESOLUTION);
     ledcAttachPin(MOTOR_PINS[i], MOTOR_CHANNELS[i]);
   }
-  //init of the LED Pins
-  for (int i = 0; i < LED_COUNT; i++) {
-    ledcSetup(LED_CHANNELS[i], PWM_FREQUENCY, PWM_RESOLUTION);
-    ledcAttachPin(LED_PINS[i], LED_CHANNELS[i]);
-    ledcWrite(LED_CHANNELS[i], 128);
-  }
 
   // wifi init
   setup_wifi();
@@ -159,8 +155,8 @@ void setup() {
   client.setServer(MQTT_SERVER, 1883);
   client.setCallback(callback);
 
-  //  lcd.init();
-  //  lcd.backlight();
+  lcd.init();
+  lcd.backlight();
 }
 
 //This function is called when MQTT receives a message
@@ -186,8 +182,16 @@ void loop() {
   if (command != lastCommand) {
         Serial.print("Command: ");
         Serial.println(command);
-        switch (command) {
 
+        //Checken afstand en indien kleiner dan threshold rijden achteruit voor 1 seconde
+        afstand_obstakel_us = usSensor();
+        afstand_obstakel_ir = irSensor();
+        if (afstand_obstakel_us < afstand_threshold || afstand_obstakel_us < afstand_threshold){
+          driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed);
+          delay(1000);
+        }
+        
+        switch (command) {
         case LEFT_TURN_FORWARD:  // Curved turn forward to the left
             driveMotors(MOTOR_FORWARD, drivingSpeed, MOTOR_FORWARD, drivingSpeed / 2);
             break;
@@ -245,11 +249,15 @@ void loop() {
 
  
 void lijnVolgen(){
-  Wire.requestFrom(8, 1);
+  Wire.beginTransmission(ADRES_SENSOR);
+  Wire.write(LINETRACKER);
+  Wire.endTransmission();
+  Wire.requestFrom(ADRES_SENSOR, 1);
   while (Wire.available()) {
     linetracker = Wire.read();
     Serial.println(linetracker, BIN);
   }
+  
   if (linetracker == 0b11111111 || linetracker == 0b11111110 ||  linetracker == 0b01111111) {
     driveMotors(MOTOR_STOP, 0, MOTOR_STOP, 0);
     delay(250);
@@ -261,11 +269,12 @@ void lijnVolgen(){
   else if ((linetracker == 0b00111111 || linetracker == 0b00011111) && vorige_afslag == RECHTS) {
     richtingKiezen(500);
   }
-  //  else if (linetracker == 0b11111111) { //Bij obstakel
-  //    richtingKiezen(150);
-  //    driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed);
-  //    delay(500);
-  //  }
+  
+  else if (linetracker == 0b11111111) { //Bij obstakel
+    richtingKiezen(150);
+    driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed);
+    delay(500);
+  }
   else if (linetracker & (1 << 1)) {
     driveMotors(MOTOR_FORWARD, drivingSpeed / 2, MOTOR_FORWARD, drivingSpeed * 2); //Links draaien
     Serial.println("Links draaien");
@@ -298,7 +307,7 @@ void richtingKiezen(int pauze) {
     delay(pauze);
   }
   byte linetracker_bocht;
-  Wire.requestFrom(8, 1);
+  Wire.write(LINETRACKER);
   while (Wire.available()) {
     linetracker_bocht = Wire.read();
   }
@@ -338,28 +347,50 @@ void voorbestemdProgramma();
   driveMotors(MOTOR_STOP, 0, MOTOR_STOP, 0); // Stop driving
   lcd.print("Voorbestemd programma voltooid");
   client.publish(TOPIC, "Voorbestemd programma voltooid");
-  
+
+void usSensor(){
+  Wire.beginTransmission(ADRES_SENSOR);
+  Wire.write(USSENSOR);
+  Wire.endTransmission();
+  Wire.requestFrom(ADRES_SENSOR, 1);
+  while (Wire.available()) {
+    us_afstand_cm = Wire.read();
+  }
+  return us_afstand_cm;
+}
+
+void irSensor(){
+  Wire.beginTransmission(ADRES_SENSOR);
+  Wire.write(IRSENSOR);
+  Wire.endTransmission();
+  Wire.requestFrom(ADRES_SENSOR, 1);
+  while (Wire.available()) {
+    ir_afstand_cm = Wire.read();
+  }
+  return ir_afstand_cm;
+}
+
 void driveMotors(int leftMotorDirection, int leftMotorSpeed, int rightMotorDirection, int rightMotorSpeed) {
-  //  lcd.clear(); // scherm leegmaken bij nieuw commando
-  //  lcd.setCursor(0, 0); // Cursor links bovenaan zetten
+    lcd.clear(); // scherm leegmaken bij nieuw commando
+    lcd.setCursor(0, 0); // Cursor links bovenaan zetten
 
   switch (leftMotorDirection)
   {
     case MOTOR_BACKWARDS:
       Serial.println("Linker motor achteruit");
-      //        lcd.print("Linker motor achteruit"); // Tekst op het scherm zetten
+      lcd.print("Linker motor achteruit"); // Tekst op het scherm zetten
       ledcWrite(MOTOR_CHANNELS[3], LOW); // Motor doet de rupsbanden naar achter draaien
       ledcWrite(MOTOR_CHANNELS[2], rightMotorSpeed); // Correcte PWM signaal sturen naar linker motor
       break;
     case MOTOR_STOP:
       Serial.println("Linker motor stop");
-      //        lcd.print("Linker motor stop");
+      lcd.print("Linker motor stop");
       ledcWrite(MOTOR_CHANNELS[2], LOW);
       ledcWrite(MOTOR_CHANNELS[3], LOW); // Motorsnelheid wordt op 0 gezet
       break;
     case MOTOR_FORWARD:
       Serial.println("Linker motor vooruit");
-      //         lcd.print("Linker motor vooruit");
+      lcd.print("Linker motor vooruit");
       ledcWrite(MOTOR_CHANNELS[3], rightMotorSpeed); // Correcte PWM signaal sturen naar linker motor
       ledcWrite(MOTOR_CHANNELS[2], HIGH); // Motor doet de rupsbanden naar voren draaien
       break;
@@ -371,19 +402,19 @@ void driveMotors(int leftMotorDirection, int leftMotorSpeed, int rightMotorDirec
   {
     case MOTOR_BACKWARDS:
       Serial.println("Rechter motor achteruit");
-      //        lcd.print("Rechter motor achteruit");
+      lcd.print("Rechter motor achteruit");
       ledcWrite(MOTOR_CHANNELS[1], LOW); // Motor doet de rupsbanden naar achter draaien
       ledcWrite(MOTOR_CHANNELS[0], leftMotorSpeed);// Correcte PWM signaal sturen naar rechter motor
       break;
     case MOTOR_STOP:
       Serial.println("Rechter motor stop");
-      //        lcd.print("Rechter motor stop");
+      lcd.print("Rechter motor stop");
       ledcWrite(MOTOR_CHANNELS[0], LOW);
       ledcWrite(MOTOR_CHANNELS[1], LOW);// Motorsnelheid wordt op 0 gezet
       break;
     case MOTOR_FORWARD:
       Serial.println("Rechter motor vooruit");
-      //        lcd.print("Rechter motor vooruit");
+      lcd.print("Rechter motor vooruit");
       ledcWrite(MOTOR_CHANNELS[1], leftMotorSpeed);// Correcte PWM signaal sturen naar rechter motor
       ledcWrite(MOTOR_CHANNELS[0], HIGH); // Motor doet de rupsbanden naar voren draaien
       break;
