@@ -32,7 +32,7 @@ De PCB designs zijn gemaakt in Fusion 360. Het programma waar wij mee hebben ler
 
 Omdat ik nog niet zo een grote projecten had gemaakt met dit programma heb ik toch wel wat uren in moeten steken om hier deftig mee te kunnen werken. Ik had daarom in het begin ook nog al de lijnen door getrokken waardoor het al snel onoverzichtelijk was. Dit heb ik dan opgezocht hoe je dit ordelijke kon doen en heb dit dan ook nog aangepast. 
 
-Omdat de freesmachine niet al de groottes aan kan van gaten (niet al de boren zijn ter beschikking) heb ik hier wat rekening mee moeten houden in mijn ontwerp. Hetzelfde met de rules en grootte van gaten van vias. Fusion maakt deze te klein aan als je hier zelf geen rekening mee houdt. Door de regels van Fernando toe te voegen heb ik na enkele kleine aanpassingen de geschikte bordjes kunnen maken die de frees machine kon maken. 
+Omdat de freesmachine niet al de groottes aan kan van gaten (niet al de boren zijn ter beschikking) heb ik hier wat rekening mee moeten houden in mijn ontwerp. Hetzelfde met de rules en grootte van gaten van vias. Fusion maakt deze te klein aan als je hier zelf geen rekening mee houdt. Door de regels van Fernando toe te voegen heb ik na enkele kleine aanpassingen de geschikte bordjes kunnen ontwerpen die de frees machine kon maken. 
 
 
 #### Eerste versie sensormodule:
@@ -48,6 +48,8 @@ Aan deze versie van het bordje heb ik nog wel enkele aanpassingen moeten doen. Z
 ###### Onderkant
 <img src="https://user-images.githubusercontent.com/93762886/173891987-805e576f-b5b2-4113-a2cb-c3f077309882.png" width="200"/>
 
+De tweede versie is ineens ook de laatste versie van frezen. Voor deze versie heb ik de kleine smd componenten met de reflow oven gesoldeerrd. Dit was wel een toffe ervaring omdat je zo een nieuwe manier van componenten solderen ziet. Het is wel niet de beste machine want er zijn verschillende beentjes van de IC aan elkaar gesoldeerd. De andere componenten zijn wel goed gesoldeerd. Doordat de vias op waren heb ik de vias zelf gesoldeerd met overschotten van through hole component beentjes. 
+
 
 #### ESP32 module: 
 ###### Bovenkant
@@ -56,13 +58,27 @@ Aan deze versie van het bordje heb ik nog wel enkele aanpassingen moeten doen. Z
 ###### Onderkant
 <img src="https://user-images.githubusercontent.com/93762886/173892241-076b790e-9185-439e-a5b7-8cc7d52eab67.png" width="300"/>
 
+Van de ESP32 module heb ik maar 1 versie kunnen maken omdat ik, toen ik mijn sensormodule was aan het frezen, merkte dat ik enkele fouten had die ik dan eerste heb aangepast vooraleer ik deze ging laten frezen. Bij deze PCB heb ik wel al de componenten zelf gesoldeerd. Dit was wel een hele opgave omdat ik nog nooit met soldeer pasta en zo een kleine componenten had gewerkt. Hierdoor is er soms wat soldeersel op mijn plaatje gekomen maar dat al geluk geen banen heeft geraakt. Ook hier heb ik gebruik gemaakt van overschotten van through hole component beentjes om de vias te solderen. 
 
+Naast dit alles was het een uitdaging om de through hole componenten te solderen omdat ik deze langs twee kanten moest solderen wat soms wel moeilijkheden met zich meebracht. 
+
+Als laatste heb ik nog gemerkt dat de beentjes van de OLED niet in de holes passen. De holes en de afstanden tussen de holes zijn te klein ondanks dat ik dezelfde component in mijn schema heb gebruikt. Dit kan eventueel opgelost worden door hier draadjes aan te solderen maar hierdoor staat de OLED wel niet op de PCB. Daarnaast heb ik ook gemerkt dat het OLED niet zoveel plaats in beslag neemt dan ik had vrijgehouden. Had ik dit op voorhand gemeten had ik de PCB compacter kunnen maken. 
+
+#### Resultaten
 
 
 ### Programmatie 
+
+Voor het programmeren heb ik het werk opgesplitst in verschillende componenten. Eerst de connectie krijgen via MQTT, daarna de verschillende sensoren en als laatste de ESP32. Eens dat elke component op zijn eigen werkte heb ik ze deel per deel bij elkaar gevoegd. De hele code is gebasseerd op mijn blokschema. 
+
+![image](https://user-images.githubusercontent.com/93762886/173913943-d4c28188-4d0e-4da4-b7d6-ca4719779450.png)
+
+Doordat ik niet genoeg tijd heb gehad om mijn bordje volledig te solderen en te testen tegen het einde heb ik mijn volledige code niet op het wagentje kunnen testen. De volledige code is geschreven. 
 
 ### Conclusie
 
 Ik heb geleerd dat een analyse zeer belangrijk is in een project. Dit is de basis van het hele project. Door hier al grondig onderzoek te doen naar de verschillende componenten en manieren van werken leer je veel bij en spaar je tijd die je daarna dan niet meer in dit proces moet steken. 
 
 Het is zeer belangrijk om in je hoofd te houden dat de analyse niet vast staat en dat er door het project heen steeds veranderingen aan allerlei zaken gebeuren. Hier heb ik soms wel mijn hoofd over gebroken omdat ik iemand ben die graag iets afwerk en dan aan het volgende werk. Steeds terug huidige versies nemen en verschillende keren aan te passen was toch iets dat ik door dit project heb geleerd. 
+
+
