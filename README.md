@@ -89,6 +89,17 @@ Je bent ook afhankelijk van de levering van materiaal. Doordat er verschillende 
 
 Het schrijven van de software ging een pak gemakkelijker en sneller omdat dat iets is waar ik meer vertrouwd ben. Er waren al verschillende zaken die wij voor andere vakken hadden gebruikt waardoor ik die code grotendeels kon overnemen. Het is natuurlijk wel belangrijk dat je PCB optijd klaar is zodat je dit hier op kan testen en aanpassen indien nodig.
 
+#### Wat ik heb geleerd
+
+- Fusion360
+- PCB frezen
+- Werken met de reflow oven
+- Solderen
+- Werken met ESP32
+- NodeRed
+- Een goede analyse is zeer belangrijk
+- Componenten zo vroeg mogelijk bestellen zodat ze zeker op tijd aankomen
+
 #### Verbeteringen 
 
 Het ESP32 bordje zou compacter kunnen worden gemaakt en de OLED holes zouden moeten worden aangepast. 
