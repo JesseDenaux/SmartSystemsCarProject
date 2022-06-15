@@ -28,7 +28,33 @@ Ik had toen mijn eerste PCB laten frezen van de sensormodule. Daarnaast had ik a
 
 ### PCB's 
 
-Eerste versie sensormodule:
+De PCB designs zijn gemaakt in Fusion 360. Het programma waar wij mee hebben leren werken in het eerste semester van het tweede jaar. 
+
+Omdat ik nog niet zo een grote projecten had gemaakt met dit programma heb ik toch wel wat uren in moeten steken om hier deftig mee te kunnen werken. Ik had daarom in het begin ook nog al de lijnen door getrokken waardoor het al snel onoverzichtelijk was. Dit heb ik dan opgezocht hoe je dit ordelijke kon doen en heb dit dan ook nog aangepast. 
+
+Omdat de freesmachine niet al de groottes aan kan van gaten (niet al de boren zijn ter beschikking) heb ik hier wat rekening mee moeten houden in mijn ontwerp. Hetzelfde met de rules en grootte van gaten van vias. Fusion maakt deze te klein aan als je hier zelf geen rekening mee houdt. Door de regels van Fernando toe te voegen heb ik na enkele kleine aanpassingen de geschikte bordjes kunnen maken die de frees machine kon maken. 
+
+
+#### Eerste versie sensormodule:
+
+<img src="https://user-images.githubusercontent.com/93762886/173889964-5ad1388e-66c9-411c-bbd0-d10189c548d4.png" width="200"/>
+
+Aan deze versie van het bordje heb ik nog wel enkele aanpassingen moeten doen. Zo staan de pinnen van de linetracker nog al ver van zijkant. Er was ook geen usb aansluiting wat een vereiste was zodat de eerste jaars dit ook kunnen programmeren. Dit heb ik dan voor de tweede versie nog aangepast en daarmee enkele zaken nog wat compacter gezet zodat het bordje nog iets kleiner kon gemaakt worden. 
+
+#### Tweede versie sensormodule: 
+###### Bovenkant
+<img src="https://user-images.githubusercontent.com/93762886/173891780-9d1dff90-6cf8-4e51-ae79-af16cceb64b4.png" width="200"/>
+
+###### Onderkant
+<img src="https://user-images.githubusercontent.com/93762886/173891987-805e576f-b5b2-4113-a2cb-c3f077309882.png" width="200"/>
+
+
+#### ESP32 module: 
+###### Bovenkant
+<img src="https://user-images.githubusercontent.com/93762886/173892158-92f6d0fc-32a6-4a22-995c-bb0e36cece0a.png" width="300"/>
+
+###### Onderkant
+<img src="https://user-images.githubusercontent.com/93762886/173892241-076b790e-9185-439e-a5b7-8cc7d52eab67.png" width="300"/>
 
 
 
