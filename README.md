@@ -66,6 +66,10 @@ Als laatste heb ik nog gemerkt dat de beentjes van de OLED niet in de holes pass
 
 #### Resultaten
 
+Tot mijn verbazing toe waren er maar een paar kleine foutjes in de PCB na het solderen. Sommige vias die zeer dicht bij elkaar lagen zijn per ongeluk aan elkaar gesoldeerd geraakt. Hieruit leer ik dat ik hier rekening mee moet houden als ik nog eens een PCB maak. Hetzelfde probleem had ik wat met de kleine componenten zoals de IC's of drivers. Hier zijn ook enkele baantjes aan elkaar gesoldeerd geraakt. Dit gewoon solderen is zeer moeilijk om het dan perfect te krijgen. Door gebruik te maken van een reflow oven of andere manieren waarbij je niet met de hand de kleine componenten moet gaan solderen kunnen deze fouten worden vermeden. Het vergt ook veel meer tijd door dit met de hand te doen. 
+
+De vias heb ik getest met de multimeter en deze zijn allemaal goed gesoldeerd en daarmee verbonden. 
+Doordat ik weet dat er enkele baantjes met elkaar verbonden zijn heb ik de PCB niet verder getest om te voorkomen dat deze zou ontploffen of er iets anders onverwacht mee zou gebeuren. 
 
 ### Programmatie 
 
@@ -73,7 +77,7 @@ Voor het programmeren heb ik het werk opgesplitst in verschillende componenten. 
 
 ![image](https://user-images.githubusercontent.com/93762886/173913943-d4c28188-4d0e-4da4-b7d6-ca4719779450.png)
 
-Doordat ik niet genoeg tijd heb gehad om mijn bordje volledig te solderen en te testen tegen het einde heb ik mijn volledige code niet op het wagentje kunnen testen. De volledige code is geschreven. 
+Doordat ik niet genoeg tijd heb gehad om mijn bordje volledig te solderen en te testen tegen het einde heb ik mijn volledige code niet op het wagentje kunnen testen. De volledige code is geschreven. Wat ik wel heb kunnen testen is de ESP32 module. Deze heb ik getest op de huidige robotwagentjes en het zelfstandig rijden en het parcour werken beide. De linetracker heb ik apart wel kunnen testen en deze werkte, zie demo filmpje. 
 
 ### Conclusie
 
@@ -89,6 +93,10 @@ Je bent ook afhankelijk van de levering van materiaal. Doordat er verschillende 
 
 Het schrijven van de software ging een pak gemakkelijker en sneller omdat dat iets is waar ik meer vertrouwd ben. Er waren al verschillende zaken die wij voor andere vakken hadden gebruikt waardoor ik die code grotendeels kon overnemen. Het is natuurlijk wel belangrijk dat je PCB optijd klaar is zodat je dit hier op kan testen en aanpassen indien nodig.
 
+Het was voor mij de eerste keer dat ik met node-red werkte en was hier snel mee weg. Het was daardoor ook zeer tof om hier mee te werken. In de korte tijd dat ik hier mee heb gewerkt heb ik hier toch nog veel mee kunnen doen. 
+
+Doordat ik maar weinig tijd in de node-red heb kunnen steken is deze nog niet 100% operationeel. Zo is er wel een slider voor de snelheid aanwezig maar deze is nog niet gelinkt met de ESP32. 
+
 #### Wat ik heb geleerd
 
 - Fusion360
@@ -102,6 +110,7 @@ Het schrijven van de software ging een pak gemakkelijker en sneller omdat dat ie
 
 #### Verbeteringen 
 
-Het ESP32 bordje zou compacter kunnen worden gemaakt en de OLED holes zouden moeten worden aangepast. 
+- Het ESP32 bordje zou compacter kunnen worden gemaakt en de OLED holes zouden moeten worden aangepast. 
+- De code van de ESP32 kan efficiënter en compacter worden geschreven. 
+- Node-red verder verbeteren en slider en serial monitor toevoegen. 
 
-De code van de ESP32 kan waarschijnlijk efficiënter en compacter worden geschreven. 
