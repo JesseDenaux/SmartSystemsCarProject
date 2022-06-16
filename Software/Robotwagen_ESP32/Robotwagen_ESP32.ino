@@ -12,17 +12,20 @@
 //Afstand van 10cm gekozen om wagen achteruit te laten rijden voor 1 seconde
 #define afstand_threshold 10
 
-#define afstand_obstakel_us
-#define afstand_obstakel_ir
+float afstand_obstakel_us = 0;
+float afstand_obstakel_ir = 0;
+
+float us_afstand_cm = 0;
+float ir_afstand_cm = 0;
 
 // WIFI Credentials
 // Connect to Hotspot on mobile phone
-const char* WIFI_SSID = ""; // Fill wifi SSID between quotes
-const char* WIFI_PASS = ""; // Fill wifi pass between quotes
+const char* WIFI_SSID = "jessephone"; // Fill wifi SSID between quotes
+const char* WIFI_PASS = "passwoord"; // Fill wifi pass between quotes
 
 //MQTT Information
-const char* MQTT_SERVER = "mqtt.denauxj.be";
-const char* TOPIC = "car/";
+const char* MQTT_SERVER = "mqtt.luytsm.be";
+const char* TOPIC = "motorstand";
 
 // WIFI and MQTT class instances 
 WiFiClient espClient;
@@ -44,9 +47,9 @@ int MOTOR_PINS[PWM_CHANNEL_COUNT] = {18, 5, 2, 15};
 int MOTOR_CHANNELS[PWM_CHANNEL_COUNT] = {0, 1, 2, 3};
 
 //I2C LCD Initialisatie
-int LCD_COLUMNS = 16;
-int LCD_ROWS = 2;
-LiquidCrystal_I2C lcd(0x27, LCD_COLUMNS, LCD_ROWS);
+//int LCD_COLUMNS = 16;
+//int LCD_ROWS = 2;
+//LiquidCrystal_I2C lcd(0x27, LCD_COLUMNS, LCD_ROWS);
 
 // Phototransitor Pin Declaratie
 const int PL_PIN = 25;
@@ -56,20 +59,15 @@ const int ECHO_PIN = 23;
 enum COMMANDS {
   LEFT_TURN_FORWARD,      // 0
   FORWARD,                // 1
-  RIGHT_TURN_FORWARD,     // ...
-  RIGHT,
-  RIGHT_TURN_BACKWARDS,
-  BACKWARDS,
-  LEFT_TURN_BACKWARDS,
-  LEFT,
-  STOP,
-  BARRIER_ONE_UP,
-  BARRIER_ONE_DOWN,
-  PRIOR_VEHICLE,
-  BARRIER_TWO_UP,
-  BARRIER_TWO_DOWN,       //13
-  LIJN_VOLGEN,            //14
-  VOORBESTEMD_PROGRAMMA   //15
+  RIGHT_TURN_FORWARD,     // 2
+  RIGHT,                  //3
+  RIGHT_TURN_BACKWARDS,   //4
+  BACKWARDS,              //5
+  LEFT_TURN_BACKWARDS,    //6
+  LEFT,                   //7
+  STOP,                   //8
+  LIJN_VOLGEN,            //9
+  VOORBESTEMD_PROGRAMMA   //10
 };
 
 
@@ -85,7 +83,7 @@ enum MOTOR_DIRECTION {
 //variables to store commands and information
 int command, lastCommand;
 
-int drivingSpeed = 100;
+int drivingSpeed = 128;
 
 byte linetracker;
 #define LINKS true
@@ -155,8 +153,8 @@ void setup() {
   client.setServer(MQTT_SERVER, 1883);
   client.setCallback(callback);
 
-  lcd.init();
-  lcd.backlight();
+//  lcd.init();
+//  lcd.backlight();
 }
 
 //This function is called when MQTT receives a message
@@ -184,12 +182,12 @@ void loop() {
         Serial.println(command);
 
         //Checken afstand en indien kleiner dan threshold rijden achteruit voor 1 seconde
-        afstand_obstakel_us = usSensor();
-        afstand_obstakel_ir = irSensor();
-        if (afstand_obstakel_us < afstand_threshold || afstand_obstakel_us < afstand_threshold){
-          driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed);
-          delay(1000);
-        }
+//        afstand_obstakel_us = usSensor();
+//        afstand_obstakel_ir = irSensor();
+//        if (afstand_obstakel_us < afstand_threshold || afstand_obstakel_us < afstand_threshold){
+//          driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed);
+//          delay(1000);
+//        }
         
         switch (command) {
         case LEFT_TURN_FORWARD:  // Curved turn forward to the left
@@ -219,25 +217,10 @@ void loop() {
         case STOP: // Stop driving
             driveMotors(MOTOR_STOP, 0, MOTOR_STOP, 0);
             break;
-        case BARRIER_ONE_UP: //Raise barrier 1 up
-            barrierControl(0, true);
-            break;
-        case BARRIER_ONE_DOWN: //Lower barrier 1 down
-            barrierControl(0, false);
-            break;
-        case PRIOR_VEHICLE: //Start the priority vehicle protocol 
-            priorVehicle();
-            break;
-        case BARRIER_TWO_UP: //Raise barrier 2 up
-            barrierControl(1, true);
-            break;
-        case BARRIER_TWO_DOWN: //Lower barrier 2 down
-            barrierControl(1, false);
-            break;
         case LIJN_VOLGEN:
             lijnVolgen();
             break;
-        case VOORBESTEMD_PROGRAMMA():
+        case VOORBESTEMD_PROGRAMMA:
             voorbestemdProgramma();
             break;
         default: //Set the driving speed 
@@ -246,7 +229,7 @@ void loop() {
         }
         lastCommand = command; //Another question on the assignment, why is this statement necessary 
     }
-
+}
  
 void lijnVolgen(){
   Wire.beginTransmission(ADRES_SENSOR);
@@ -280,8 +263,7 @@ void lijnVolgen(){
     Serial.println("Links draaien");
     delay(150);
   }
-  else if (linetracker & (1 << 6))
-  {
+  else if (linetracker & (1 << 6)){
     driveMotors(MOTOR_FORWARD, drivingSpeed * 2, MOTOR_FORWARD, drivingSpeed / 2); //Rechts draaien
     Serial.println("Rechts draaien");
     delay(150);
@@ -293,7 +275,7 @@ void lijnVolgen(){
   }
   delay(50);
 }
-}
+
 
 void richtingKiezen(int pauze) {
   if (vorige_afslag == LINKS) {
@@ -324,31 +306,34 @@ void richtingKiezen(int pauze) {
   }
 }
 
-void voorbestemdProgramma();
+void voorbestemdProgramma(){
   //Voorwaarts rijden, links draaien, voorwaarts rijden, rechts draaien, achteruit rijden, links curved draaien, voorwaarts rijden, rechts curved, stoppen
-  lcd.print("Voorbestemd programma aan het rijden");
-  client.publish(TOPIC, "Voorbestemd programma aan het rijden");
+//  lcd.print("Voorbestemd programma aan het rijden");
+  drivingSpeed=250;
+  
+  driveMotors(MOTOR_FORWARD, drivingSpeed/2, MOTOR_FORWARD, drivingSpeed); // Curved turn forward to the right
+  delay(1000);
   driveMotors(MOTOR_FORWARD, drivingSpeed, MOTOR_FORWARD, drivingSpeed); // Drive forward
-  delay(500);
-  driveMotors(MOTOR_FORWARD, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed); // Turn left around center point chassis
-  delay(500);
-  driveMotors(MOTOR_FORWARD, drivingSpeed, MOTOR_FORWARD, drivingSpeed); // Drive forward
-  delay(500);
-  driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_FORWARD, drivingSpeed); // Turn right around center point chassis
-  delay(500);
-  driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed); // Drive backwards
-  delay(500);
+  delay(1000);
   driveMotors(MOTOR_FORWARD, drivingSpeed, MOTOR_FORWARD, drivingSpeed/2); // Curved turn forward to the left
-  delay(500);
-  driveMotors(MOTOR_FORWARD, drivingSpeed, MOTOR_FORWARD, drivingSpeed); // Drive forward
-  delay(500);
-  driveMotors(MOTOR_BACKWARDS, drivingSpeed/2, MOTOR_BACKWARDS, drivingSpeed); // Curved turn backwards to the right
-  delay(500);
+  delay(1000);
   driveMotors(MOTOR_STOP, 0, MOTOR_STOP, 0); // Stop driving
-  lcd.print("Voorbestemd programma voltooid");
+  delay(1000);
+  driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed); // Drive backwards
+  delay(1000);
+  driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_FORWARD, drivingSpeed); // Turn right around center point chassis
+  delay(1000);
+  driveMotors(MOTOR_STOP, 0, MOTOR_STOP, 0); // Stop driving
+  delay(1000);
+  driveMotors(MOTOR_BACKWARDS, drivingSpeed, MOTOR_BACKWARDS, drivingSpeed/2); // Curved turn backwards to the left
+  delay(1000);
+  driveMotors(MOTOR_STOP, 0, MOTOR_STOP, 0); // Stop driving
+  delay(1000);
+//  lcd.print("Voorbestemd programma voltooid");
   client.publish(TOPIC, "Voorbestemd programma voltooid");
+}
 
-void usSensor(){
+byte usSensor(){
   Wire.beginTransmission(ADRES_SENSOR);
   Wire.write(USSENSOR);
   Wire.endTransmission();
@@ -356,10 +341,10 @@ void usSensor(){
   while (Wire.available()) {
     us_afstand_cm = Wire.read();
   }
-  return us_afstand_cm;
+  return byte(us_afstand_cm);
 }
 
-void irSensor(){
+byte irSensor(){
   Wire.beginTransmission(ADRES_SENSOR);
   Wire.write(IRSENSOR);
   Wire.endTransmission();
@@ -367,32 +352,32 @@ void irSensor(){
   while (Wire.available()) {
     ir_afstand_cm = Wire.read();
   }
-  return ir_afstand_cm;
+  return byte(ir_afstand_cm);
 }
 
 void driveMotors(int leftMotorDirection, int leftMotorSpeed, int rightMotorDirection, int rightMotorSpeed) {
-    lcd.clear(); // scherm leegmaken bij nieuw commando
-    lcd.setCursor(0, 0); // Cursor links bovenaan zetten
+//    lcd.clear(); // scherm leegmaken bij nieuw commando
+//    lcd.setCursor(0, 0); // Cursor links bovenaan zetten
 
   switch (leftMotorDirection)
   {
     case MOTOR_BACKWARDS:
       Serial.println("Linker motor achteruit");
-      lcd.print("Linker motor achteruit"); // Tekst op het scherm zetten
-      ledcWrite(MOTOR_CHANNELS[3], LOW); // Motor doet de rupsbanden naar achter draaien
-      ledcWrite(MOTOR_CHANNELS[2], rightMotorSpeed); // Correcte PWM signaal sturen naar linker motor
+//      lcd.print("Linker motor achteruit"); // Tekst op het scherm zetten
+      ledcWrite(MOTOR_CHANNELS[1], rightMotorSpeed); // Motor doet de rupsbanden naar achter draaien
+      ledcWrite(MOTOR_CHANNELS[0], LOW); // Correcte PWM signaal sturen naar linker motor
       break;
     case MOTOR_STOP:
       Serial.println("Linker motor stop");
-      lcd.print("Linker motor stop");
-      ledcWrite(MOTOR_CHANNELS[2], LOW);
-      ledcWrite(MOTOR_CHANNELS[3], LOW); // Motorsnelheid wordt op 0 gezet
+//      lcd.print("Linker motor stop");
+      ledcWrite(MOTOR_CHANNELS[0], LOW);
+      ledcWrite(MOTOR_CHANNELS[1], LOW); // Motorsnelheid wordt op 0 gezet
       break;
     case MOTOR_FORWARD:
       Serial.println("Linker motor vooruit");
-      lcd.print("Linker motor vooruit");
-      ledcWrite(MOTOR_CHANNELS[3], rightMotorSpeed); // Correcte PWM signaal sturen naar linker motor
-      ledcWrite(MOTOR_CHANNELS[2], HIGH); // Motor doet de rupsbanden naar voren draaien
+//      lcd.print("Linker motor vooruit");
+      ledcWrite(MOTOR_CHANNELS[1], HIGH); // Correcte PWM signaal sturen naar linker motor
+      ledcWrite(MOTOR_CHANNELS[0], rightMotorSpeed); // Motor doet de rupsbanden naar voren draaien
       break;
     default:
       break;
@@ -402,21 +387,21 @@ void driveMotors(int leftMotorDirection, int leftMotorSpeed, int rightMotorDirec
   {
     case MOTOR_BACKWARDS:
       Serial.println("Rechter motor achteruit");
-      lcd.print("Rechter motor achteruit");
-      ledcWrite(MOTOR_CHANNELS[1], LOW); // Motor doet de rupsbanden naar achter draaien
-      ledcWrite(MOTOR_CHANNELS[0], leftMotorSpeed);// Correcte PWM signaal sturen naar rechter motor
+//      lcd.print("Rechter motor achteruit");
+      ledcWrite(MOTOR_CHANNELS[3], leftMotorSpeed); // Motor doet de rupsbanden naar achter draaien
+      ledcWrite(MOTOR_CHANNELS[2], LOW);// Correcte PWM signaal sturen naar rechter motor
       break;
     case MOTOR_STOP:
       Serial.println("Rechter motor stop");
-      lcd.print("Rechter motor stop");
-      ledcWrite(MOTOR_CHANNELS[0], LOW);
-      ledcWrite(MOTOR_CHANNELS[1], LOW);// Motorsnelheid wordt op 0 gezet
+//      lcd.print("Rechter motor stop");
+      ledcWrite(MOTOR_CHANNELS[2], LOW);
+      ledcWrite(MOTOR_CHANNELS[3], LOW);// Motorsnelheid wordt op 0 gezet
       break;
     case MOTOR_FORWARD:
       Serial.println("Rechter motor vooruit");
-      lcd.print("Rechter motor vooruit");
-      ledcWrite(MOTOR_CHANNELS[1], leftMotorSpeed);// Correcte PWM signaal sturen naar rechter motor
-      ledcWrite(MOTOR_CHANNELS[0], HIGH); // Motor doet de rupsbanden naar voren draaien
+//      lcd.print("Rechter motor vooruit");
+      ledcWrite(MOTOR_CHANNELS[3], HIGH);// Correcte PWM signaal sturen naar rechter motor
+      ledcWrite(MOTOR_CHANNELS[2], leftMotorSpeed); // Motor doet de rupsbanden naar voren draaien
       break;
     default:
       break;
