@@ -30,7 +30,9 @@ Om een volledig zelfstandig systeem te kunnen hebben moeten er ook een aantal ve
 
 Er worden twee afstand sensoren voorzien. Een IR afstand sensor voor de korte afstanden tot 80cm en een ultrasoon sensor voor de afstanden tot 5m. Door hier twee afstand sensoren te voorzien is er een extra zekerheid dat de juiste afstand wordt gemeten indien één van de twee sensoren geen waarde meet. De IR sensor is namelijk ook gevoelig aan zonlicht waardoor deze dan afwijkende waarden zal meten. 
 
-![](C:\Users\jesse\Documents\Elektronica-ICT%202021-2022\SmartSystems\SmartSystemsCarProject-main\SmartSystemsCarProject\Analyse\Blokschema_driver.png)
+
+![image](https://user-images.githubusercontent.com/93762886/174131728-3b87a581-93aa-4c64-8acf-cf96640b7381.png)
+
 
 ##### Specificatie tabel
 
