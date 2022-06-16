@@ -21,7 +21,7 @@ float ir_afstand_cm = 0;
 // WIFI Credentials
 // Connect to Hotspot on mobile phone
 const char* WIFI_SSID = "jessephone"; // Fill wifi SSID between quotes
-const char* WIFI_PASS = "passwoord"; // Fill wifi pass between quotes
+const char* WIFI_PASS = ""; // Fill wifi pass between quotes
 
 //MQTT Information
 const char* MQTT_SERVER = "mqtt.luytsm.be";
